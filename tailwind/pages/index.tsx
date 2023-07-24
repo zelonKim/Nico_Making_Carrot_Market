@@ -16,8 +16,8 @@ import type { NextPage } from "next";
 
 const Home: NextPage = () => {
   return (
-    <div className="grid min-h-screen gap-10 px-20 py-20 bg-slate-400">
-      {/*       <div className="justify-between pt-2 mt-2 bg-white bgflex">
+    <div className="grid min-h-screen gap-10 px-20 py-20 bg-gray-400 sm:grid-cols-2 md:grid-cols-3 sm:bg-red-400 md:bg-green-400 lg:bg-blue-400 xl:bg-yellow-400 2xl:bg-pink-500 dark">
+      <div className="justify-between pt-2 mt-2 bg-white bgflex dark:bg-black sm:hover:bg-yellow-400">
         <span>Total</span>
         <span className="font-semibold">$10</span>
         <button className="w-3/4 p-3 mx-auto mt-5 text-center text-white bg-blue-500 rounded-xl hover:bg-teal-500 hover:text-black active:bg-yellow-500 focus:bg-red-500 ">
@@ -124,17 +124,9 @@ const Home: NextPage = () => {
         <span className="text-black-500 peer-hover:text-amber-500">Hello</span>
 
         <input type="submit" value="Login" className="bg-white" />
-      </form> */}
-
-{/* <div className="p-6 bg-gray-300 group">
-  <button className="w-24 h-24 bg-red-300 group-hover:bg-blue-300" />
-</div> */}
-
-  <details className="select-none open:text-white open:bg-indigo-400">
-    <summary className="cursor-pointer select-none"> What is my favorite food </summary>
-    <span className="selection:bg-indigo-600 "> Kimchi </span>
-  </details>
-</div>
+      </form>
+      
+    </div>
   );
 };
 export default Home;
