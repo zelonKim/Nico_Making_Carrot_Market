@@ -4,10 +4,16 @@ import Head from "next/head";
 import FloatingButton from "../components/floating-button";
 import Item from "../components/item";
 import Layout from "../components/layout";
+import useSWR from "swr"
+
+interface ProductsResponse {
+  ok: boolean;
+  products: Product[]
+}
 
 const Home: NextPage = () => {
-  const user = useUser();
-  console.log(user);
+  const {user , isLoading } = useUser();
+  const { data } = useSWR<ProductsResponse>("/api/products")
 
   return (
     <>
@@ -16,12 +22,12 @@ const Home: NextPage = () => {
           <title>Home</title>
         </Head>
         <div className="flex flex-col space-y-5 divide-y">
-          {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
+          {data?.products?.map((product) => (
             <Item
-              id={i}
-              key={i}
-              title="iPhone 14"
-              price={99}
+              id={product.id}
+              key={product.id}
+              title={product.name}
+              price={product.price}
               comments={1}
               hearts={1}
             />
