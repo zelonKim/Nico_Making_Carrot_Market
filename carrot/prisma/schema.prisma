@@ -2,14 +2,12 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -34,7 +32,6 @@ model Token {
   updatedAt DateTime @updatedAt
 }
 
-
 model Product {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
@@ -45,15 +42,16 @@ model Product {
   name        String
   price       Int
   description String   @db.MediumText
+  favsCount   Int
   favs        Fav[]
 }
 
 model Fav {
-  id          Int      @id @default(autoincrement())
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      Int
-  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  productId   Int
-  updatedAt   DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  productId Int
+  updatedAt DateTime @updatedAt
 }

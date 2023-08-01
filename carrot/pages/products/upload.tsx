@@ -39,13 +39,14 @@ const Upload: NextPage = () => {
     }
   }, [data, router]);
   
+  
   return (
     <Layout canGoBack title="Upload Product">
       <form className="p-4 space-y-4" onSubmit={handleSubmit(onValid)}>
         <div>
-          <label className="w-full cursor-pointer text-gray-600 hover:border-orange-500 hover:text-orange-500 flex items-center justify-center border-2 border-dashed border-gray-300 h-48 rounded-md">
+          <label className="flex items-center justify-center w-full h-48 text-gray-600 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-orange-500 hover:text-orange-500">
             <svg
-              className="h-12 w-12"
+              className="w-12 h-12"
               stroke="currentColor"
               fill="none"
               viewBox="0 0 48 48"
@@ -87,5 +88,4 @@ const Upload: NextPage = () => {
     </Layout>
   );
 };
-
 export default Upload;
