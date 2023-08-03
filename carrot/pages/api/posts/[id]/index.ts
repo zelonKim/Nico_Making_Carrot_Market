@@ -48,7 +48,7 @@ async function handler(
   
 
   const isWondering = await client.wondering.findFirst({
-    wehre: {
+    where: {
       postId: +id.toString(),
       userId: user.id
     }
