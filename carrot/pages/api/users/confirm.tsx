@@ -39,7 +39,6 @@ import withHandler, { ResponseType } from "@libs/server/withHandler";
 import client from "@libs/server/client";
 import { withApiSession } from "@libs/server/withSession";
 
-
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
@@ -59,6 +58,7 @@ async function handler(
   };
   await req.session.save();
 
+
   await client.token.deleteMany({
     where: {
       userId: foundToken.userId,
@@ -68,5 +68,5 @@ async function handler(
 }
 
 export default withApiSession(
-  withHandler({ method: "POST", handler, isPrivate: false })
+  withHandler({ methods: ["POST"], handler, isPrivate: false })
 );

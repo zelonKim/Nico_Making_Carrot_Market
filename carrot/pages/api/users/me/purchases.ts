@@ -11,22 +11,21 @@ async function handler(
     session: { user },
   } = req;
 
-  /* 
-  client.record.findMany({
-  where: {
-    userId: user?.id,
-    kind:"Purchase"
-  },
-}); 
-*/
-
   const purchases = await client.purchase.findMany({
     where: {
       userId: user?.id,
     },
     include: {
-        proudct: true;
-    }
+      proudct: {
+        include: {
+          _count: {
+            select: {
+              favs: true,
+            },
+          },
+        },
+      },
+    },
   });
   res.json({
     ok: true,

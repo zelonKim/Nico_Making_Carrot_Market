@@ -38,7 +38,7 @@ export default function useUser() {
     }
   }, [data, router])
 
-  return { user: data?.profile, isLoading: !data && !error }
+  return { user: data?.profile,  isLoading: !data && !error }
 }
 
 

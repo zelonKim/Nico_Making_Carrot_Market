@@ -13,9 +13,17 @@ async function handler(
 
     const reviews = await client.review.findMany({
         where: {
-            createdForId: user?id,
+            createdForId: user?.id,
         },
-        include: { createdBy: {select: { id:true, name: true, avatar: true } } }
+        include: { 
+          createdBy: {
+            select:{
+                id:true, 
+                name: true, 
+                avatar: true 
+              }
+             } 
+            }
     })
 
   res.json({
