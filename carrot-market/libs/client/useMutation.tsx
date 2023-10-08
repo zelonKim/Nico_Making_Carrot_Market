@@ -1,22 +1,24 @@
 import { useState } from "react";
 
-interface UseMutationState {
+interface UseMutationState<T> {
   loading: boolean;
-  data?: object;
+  data?: T;
   error?: object;
 }
 
-type UseMutationResult = [(data: any) => void, UseMutationState];
+type UseMutationResult<T> = [(data: any) => void, UseMutationState<T>];
 
-export default function useMutation(url: string): UseMutationResult {
-  const [state, setState] = useState<UseMutationState>({
+export default function useMutation<T = any>(
+  url: string
+): UseMutationResult<T> {
+  const [state, setState] = useState<UseMutationState<T>>({
     loading: false,
     data: undefined,
     error: undefined,
-  })
+  });
 
   function mutation(data: any) {
-    setState((prev) => ({ ...prev, loading: true}));
+    setState((prev) => ({ ...prev, loading: true }));
     fetch(url, {
       method: "POST",
       body: JSON.stringify(data),
@@ -25,9 +27,9 @@ export default function useMutation(url: string): UseMutationResult {
       },
     })
       .then((response) => response.json().catch(() => {}))
-      .then((data) => setState((prev) => ({ ...prev, data})))
-      .catch((error) => setState((prev) => ({ ...prev, error})))
-      .finally(() => setState((prev) => ({ ...prev, loading: false })))
+      .then((data) => setState((prev) => ({ ...prev, data })))
+      .catch((error) => setState((prev) => ({ ...prev, error })))
+      .finally(() => setState((prev) => ({ ...prev, loading: false })));
   }
-  return [mutation, {...state}];
+  return [mutation, { ...state }];
 }
