@@ -3,13 +3,13 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
-interface useUserResponse {
+interface ProfileResponse {
   ok: boolean;
   profile: User;
 }
 
 export default function useUser() {
-  const { data, error } = useSWR<useUserResponse>("api/users/me");
+  const { data, error } = useSWR<ProfileResponse>("api/users/me");
   const router = useRouter();
 
   useEffect(() => {
