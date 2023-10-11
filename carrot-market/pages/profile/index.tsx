@@ -102,7 +102,7 @@ const Profile: NextPage = () => {
             </a>
           </Link>
         </div>
-        {data?.reviews.map((review) => (
+        {data?.reviews?.map((review) => (
           <div key={review.id} className="mt-12">
             <div className="flex space-x-4 items-center">
               <div className="w-12 h-12 rounded-full bg-slate-500" />
@@ -116,10 +116,10 @@ const Profile: NextPage = () => {
                       key={star}
                       className={cls(
                         "h-5 w-5",
-                         review.score >= star 
-                         ? "text-yellow-400"
-                         : "text-gray-400"
-                         )}
+                        review.score >= star
+                          ? "text-yellow-400"
+                          : "text-gray-400"
+                      )}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"

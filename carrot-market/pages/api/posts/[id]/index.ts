@@ -42,6 +42,8 @@ async function handler(
             },
           },
         },
+        take: 10,
+        skip: 20,
       },
     },
   });
