@@ -9,6 +9,7 @@ import { User } from "@prisma/client";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import useUser from "@libs/client/useUser";
+import Image from "next/image";
 
 interface ProductWithUser extends Product {
   user: User;
@@ -25,50 +26,9 @@ const ItemDetail: NextPage = () => {
   const { user, isLoading } = useUser();
   const router = useRouter();
 
-  const { mutate: unboundMutate } = useSWRConfig();
   const { data, mutate: boundMutate } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
-  console.log(data);
-
-  /* If you enter http://localhost:3000/products/1 ,
-
-    {
-      "ok": true,
-
-      "product": {
-          "id": 1,
-          "createdAt": "2023-10-09T02:53:45.263Z",
-          "updatedAt": "2023-10-09T06:41:32.372Z",
-          "userId": 16,
-          "image": "",
-          "name": "samsung galaxy 21",
-          "price": 12,
-          "description": "good",
-          "user": {
-              "id": 16,
-              "name": "Anonymous",
-              "avatar": null
-          }
-      },
-
-    "isLiked": true,
-
-    "relatedProducts": [
-        {
-            "id": 2,
-            "createdAt": "2023-10-09T06:52:31.074Z",
-            "updatedAt": "2023-10-09T06:51:52.736Z",
-            "userId": 16,
-            "image": "",
-            "name": "samsung TV 15",
-            "price": 0,
-            "description": ""
-        }
-      ]
-    }
-
-     will be printed in cosole */
 
   const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`);
 
@@ -81,11 +41,22 @@ const ItemDetail: NextPage = () => {
 
   return (
     <Layout canGoBack>
-      <div className="px-4  py-4">
+      <div className="px-4 py-4">
         <div className="mb-8">
-          <div className="h-96 bg-slate-300" />
-          <div className="flex cursor-pointer py-3 border-t border-b items-center space-x-3">
-            <div className="w-12 h-12 rounded-full bg-slate-300" />
+          <div className="relative pb-80">
+            <Image
+              layout="fill"
+              src={`https://imagedelivery.net/juWL4wJkg2RvbQ4iiA59DQ/${data?.product?.image}/public`}
+              className="object-cover h-96 bg-slate-300"
+            />
+          </div>
+          <div className="flex items-center py-3 space-x-3 border-t border-b cursor-pointer ">
+            <Image
+              width={48}
+              height={48}
+              src={`https://imagedelivery.net/juWL4wJkg2RvbQ4iiA59DQ/${data?.product?.user?.avatar}/avatar`}
+              className="w-12 h-12 rounded-full bg-slate-300"
+            />
             <div>
               <p className="text-sm font-medium text-gray-700">
                 {data?.product?.user?.name}
@@ -101,10 +72,10 @@ const ItemDetail: NextPage = () => {
             <h1 className="text-3xl font-bold text-gray-900">
               {data?.product?.name}
             </h1>
-            <span className="text-2xl block mt-3 text-gray-900">
+            <span className="block mt-3 text-2xl text-gray-900">
               ${data?.product?.price}
             </span>
-            <p className=" my-6 text-gray-700">{data?.product?.description}</p>
+            <p className="my-6 text-gray-700 ">{data?.product?.description}</p>
             <div className="flex items-center justify-between space-x-2">
               <Button large text="Talk to seller" />
               <button
@@ -131,7 +102,7 @@ const ItemDetail: NextPage = () => {
                   </svg>
                 ) : (
                   <svg
-                    className="h-6 w-6 "
+                    className="w-6 h-6 "
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -152,11 +123,11 @@ const ItemDetail: NextPage = () => {
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Similar items</h2>
-          <div className=" mt-6 grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 mt-6 ">
             {data?.relatedProducts?.map((product) => (
               <div key={product.id}>
-                <div className="h-56 w-full mb-4 bg-slate-300" />
-                <h3 className="text-gray-700 -mb-1">{product.name}</h3>
+                <div className="w-full h-56 mb-4 bg-slate-300" />
+                <h3 className="-mb-1 text-gray-700">{product.name}</h3>
                 <span className="text-sm font-medium text-gray-900">
                   ${product.price}
                 </span>

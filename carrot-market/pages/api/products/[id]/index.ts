@@ -27,7 +27,6 @@ async function handler(
     },
   });
 
-
   const terms = product?.name.split(" ").map((word) => ({
     name: {
       contains: word,

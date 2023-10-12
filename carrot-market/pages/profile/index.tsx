@@ -23,7 +23,14 @@ const Profile: NextPage = () => {
     <Layout hasTabBar title="나의 캐럿">
       <div className="px-4">
         <div className="flex items-center mt-4 space-x-3">
-          <div className="w-16 h-16 bg-slate-500 rounded-full" />
+          {user?.avatar ? (
+            <img
+              src={`https://imagedelivery.net/juWL4wJkg2RvbQ4iiA59DQ/${user.avatar}/avatar`}
+              className="w-16 h-16 rounded-full bg-slate-500"
+            />
+          ) : (
+            <div className="w-16 h-16 rounded-full bg-slate-500" />
+          )}
           <div className="flex flex-col">
             <span className="font-medium text-gray-900">{user?.name}</span>
             <Link href="/profile/edit">
@@ -31,10 +38,10 @@ const Profile: NextPage = () => {
             </Link>
           </div>
         </div>
-        <div className="mt-10 flex justify-around">
+        <div className="flex justify-around mt-10">
           <Link href="/profile/sold">
             <a className="flex flex-col items-center">
-              <div className="w-14 h-14 text-white bg-orange-400 rounded-full flex items-center justify-center">
+              <div className="flex items-center justify-center text-white bg-orange-400 rounded-full w-14 h-14">
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -50,14 +57,14 @@ const Profile: NextPage = () => {
                   ></path>
                 </svg>
               </div>
-              <span className="text-sm mt-2 font-medium text-gray-700">
+              <span className="mt-2 text-sm font-medium text-gray-700">
                 판매내역
               </span>
             </a>
           </Link>
           <Link href="/profile/bought">
             <a className="flex flex-col items-center">
-              <div className="w-14 h-14 text-white bg-orange-400 rounded-full flex items-center justify-center">
+              <div className="flex items-center justify-center text-white bg-orange-400 rounded-full w-14 h-14">
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -73,14 +80,14 @@ const Profile: NextPage = () => {
                   ></path>
                 </svg>
               </div>
-              <span className="text-sm mt-2 font-medium text-gray-700">
+              <span className="mt-2 text-sm font-medium text-gray-700">
                 구매내역
               </span>
             </a>
           </Link>
           <Link href="/profile/loved">
             <a className="flex flex-col items-center">
-              <div className="w-14 h-14 text-white bg-orange-400 rounded-full flex items-center justify-center">
+              <div className="flex items-center justify-center text-white bg-orange-400 rounded-full w-14 h-14">
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -96,7 +103,7 @@ const Profile: NextPage = () => {
                   ></path>
                 </svg>
               </div>
-              <span className="text-sm mt-2 font-medium text-gray-700">
+              <span className="mt-2 text-sm font-medium text-gray-700">
                 관심목록
               </span>
             </a>
@@ -104,7 +111,7 @@ const Profile: NextPage = () => {
         </div>
         {data?.reviews?.map((review) => (
           <div key={review.id} className="mt-12">
-            <div className="flex space-x-4 items-center">
+            <div className="flex items-center space-x-4">
               <div className="w-12 h-12 rounded-full bg-slate-500" />
               <div>
                 <h4 className="text-sm font-bold text-gray-800">
@@ -131,7 +138,7 @@ const Profile: NextPage = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-4 text-gray-600 text-sm">
+            <div className="mt-4 text-sm text-gray-600">
               <p>{review.review}</p>
             </div>
           </div>

@@ -23,11 +23,11 @@ async function handler(
 
   await req.session.save();
 
-  await client.token.deleteMany({
+/*   await client.token.deleteMany({
     where: {
       userId: foundToken.userId,
     },
-  });
+  }); */
 
   res.json({ ok: true });
 }
