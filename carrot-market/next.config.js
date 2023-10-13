@@ -5,6 +5,6 @@ module.exports = {
     forceSwcTransforms: true,
   },
   images: {
-    domains: ["imagedelivery.net"],
+    domains: ["imagedelivery.net", "videodelivery.net"]
   }
 }

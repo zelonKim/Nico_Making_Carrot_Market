@@ -8,6 +8,7 @@ import useSWR from "swr";
 import { Product } from "@prisma/client";
 import Image from "next/image";
 import iphone14 from "../public/iphone14.jpg";
+import client from "@libs/server/prismaClient";
 
 export interface ProductWithCount extends Product {
   _count: {
@@ -20,9 +21,9 @@ interface ProductsResponse {
   products: ProductWithCount[];
 }
 
-const Home: NextPage = () => {
+const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
   const { user, isLoading } = useUser();
-  const { data } = useSWR<ProductsResponse>("/api/products");
+  // const { data } = useSWR<ProductsResponse>("/api/products");
 
   return (
     <Layout title="홈" hasTabBar>
@@ -30,13 +31,14 @@ const Home: NextPage = () => {
         <title>Home</title>
       </Head>
       <div className="flex flex-col space-y-5 divide-y">
-        {data?.products?.map((product) => (
+        {products?.map((product) => (
           <Item
             id={product.id}
             key={product.id}
             title={product.name}
             price={product.price}
-            hearts={product._count.favs}
+            hearts={product._count?.favs}
+            image={product.image}
           />
         ))}
         <FloatingButton href="/products/upload">
@@ -57,9 +59,17 @@ const Home: NextPage = () => {
           </svg>
         </FloatingButton>
       </div>
-      <Image src={iphone14} placeholder="blur" quality={50}/> 
     </Layout>
   );
 };
+
+export async function getServerSideProps() {
+  const products = await client?.product.findMany({});
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products)),
+    },
+  };
+}
 
 export default Home;
