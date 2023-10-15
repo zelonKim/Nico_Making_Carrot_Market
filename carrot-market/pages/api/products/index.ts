@@ -11,7 +11,6 @@ async function handler(
     const products = await client.product.findMany({
       include: {
         _count: {
-          // counts the relationship
           select: {
             favs: true,
           },

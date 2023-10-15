@@ -4,7 +4,7 @@ import Item from "@components/item";
 import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
 import Head from "next/head";
-import useSWR from "swr";
+import useSWR, { SWRConfig } from "swr";
 import { Product } from "@prisma/client";
 import Image from "next/image";
 import iphone14 from "../public/iphone14.jpg";
@@ -21,9 +21,9 @@ interface ProductsResponse {
   products: ProductWithCount[];
 }
 
-const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
+const Home: NextPage = () => {
   const { user, isLoading } = useUser();
-  // const { data } = useSWR<ProductsResponse>("/api/products");
+  const { data } = useSWR<ProductsResponse>("/api/products");
 
   return (
     <Layout title="홈" hasTabBar>
@@ -31,7 +31,7 @@ const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
         <title>Home</title>
       </Head>
       <div className="flex flex-col space-y-5 divide-y">
-        {products?.map((product) => (
+        {data?.products?.map((product) => (
           <Item
             id={product.id}
             key={product.id}
@@ -63,6 +63,25 @@ const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
   );
 };
 
+const Page: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
+  return (
+    <SWRConfig // wraps a Component by 'SWRConfig' Provider
+      value={{
+        fallback: {
+          // sets a Cache`s initial state
+          "/api/products": {
+            // URL key
+            ok: true,
+            products,
+          }, // have to keep the data shape
+        },
+      }}
+    >
+      <Home />
+    </SWRConfig>
+  );
+}; // uses SWR with getServerSideProps()
+
 export async function getServerSideProps() {
   const products = await client?.product.findMany({});
   return {
@@ -72,4 +91,4 @@ export async function getServerSideProps() {
   };
 }
 
-export default Home;
+export default Page;
