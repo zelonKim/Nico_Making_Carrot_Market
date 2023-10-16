@@ -25,6 +25,9 @@ async function handler(
         },
       },
     });
+
+    await res.unstable_revalidate("/coummnity");
+
     res.json({
       ok: true,
       post,
