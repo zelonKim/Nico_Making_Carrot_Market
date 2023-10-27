@@ -3,6 +3,9 @@ import type { AppProps } from "next/app";
 import { SWRConfig } from "swr";
 import Script from "next/script";
 
+//@ts-ignore
+export const reportWebVitals = (metrics) => sendToGoogleAnalytics(metrics);
+
 function MyApp({ Component, pageProps }: AppProps) {
   console.log("App is Running");
   return (
